@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Página no encontrada | Ricardo Guzmán · Abogado Litigante"
+  description="La página solicitada no está disponible o ha cambiado de dirección."
+>
+  <section class="py-24 sm:py-32 bg-burdeo-900 text-crema text-center">
+    <div class="max-w-xl mx-auto px-4 sm:px-6">
+      <div class="space-y-6">
+        <span class="text-xs font-mono tracking-widest text-almendra uppercase block">
+          ERROR 404 · RECURSO NO DISPONIBLE
+        </span>
+        <h1 class="font-serif text-3xl sm:text-4xl text-crema font-normal">
+          Página no encontrada
+        </h1>
+        <p class="text-xs sm:text-sm text-crema/80 font-light leading-relaxed">
+          La dirección que ha ingresado no existe en nuestro portal o ha sido reubicada. Puede regresar a la portada o acceder directamente a nuestro evaluador procesal de casos.
+        </p>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a 
+            href="/" 
+            class="px-6 py-3 bg-crema text-burdeo-900 text-xs font-bold uppercase tracking-wider hover:bg-almendra transition-colors"
+          >
+            Volver al Inicio
+          </a>
+          <a 
+            href="/evaluar" 
+            class="px-6 py-3 border border-almendra text-crema text-xs font-medium uppercase tracking-wider hover:bg-crema/10 transition-colors"
+          >
+            Evaluar Caso Procesal
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseEvaluator from '../components/CaseEvaluator.astro';
+---
+
+<BaseLayout
+  title="Evaluación Preliminar de Caso | Ricardo Guzmán · Abogado Litigante"
+  description="Verifica si tu causa penal o familiar en Santiago y Viña del Mar cumple con los requisitos legales para iniciar acciones judiciales y canaliza tu consulta directa a mi WhatsApp."
+>
+  <section class="py-12 sm:py-16 lg:py-20 bg-crema-100">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Encabezado de la página -->
+      <div class="text-center max-w-2xl mx-auto mb-10 space-y-3">
+        <span class="text-xs font-mono tracking-widest text-burdeo uppercase font-semibold">
+          EVALUACIÓN PRELIMINAR
+        </span>
+        <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-burdeo-900 font-normal">
+          Cuéntame tu situación
+        </h1>
+        <p class="text-xs sm:text-sm text-charcoal/80 font-light leading-relaxed">
+          Responde estas preguntas breves para verificar si tu caso cumple con los requisitos legales para iniciar acciones y prepararte el contacto directo a mi WhatsApp.
+        </p>
+      </div>
+
+      <!-- Componente Interactivo -->
+      <CaseEvaluator />
+
+      <!-- Nota de Reserva y Secreto Profesional -->
+      <div class="mt-8 p-4 bg-crema border border-almendra/60 text-[11px] text-charcoal/70 leading-relaxed space-y-1">
+        <div class="flex items-center gap-2 font-medium text-burdeo">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="square" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <span class="uppercase tracking-wider font-mono">Garantía de Secreto Profesional</span>
+        </div>
+        <p>
+          Los antecedentes proporcionados a través de este evaluador se encuentran amparados por el deber de estricta reserva y secreto profesional (Art. 247 del Código Penal chileno y normativa del Colegio de Abogados de Chile). Sus datos no serán compartidos con terceros ni utilizados con fines publicitarios.
+        </p>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>

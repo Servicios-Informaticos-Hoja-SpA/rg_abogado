@@ -1,0 +1,830 @@
+---
+import { COMMUNES, OFFICIAL_PHONE } from '../data/causes';
+
+// Catálogo de Materias con Reglas de Calificación Jurídica y Orientación según Ley Chilena
+const MATERIAS_CONFIG = [
+  // ==================== DERECHO DE FAMILIA ====================
+  {
+    id: 'pension-alimentos',
+    area: 'familia',
+    name: 'Demanda de pensión de alimentos',
+    question: '¿Cuentas con el Certificado de Mediación Frustrada (o existe una causa vigente de Violencia Intrafamiliar)?',
+    yesLabel: 'Sí, cumplo / lo tengo',
+    noLabel: 'Aún no / No estoy seguro',
+    requirementConfirmedText: 'Cuenta con Certificado de Mediación Frustrada (Art. 106 Ley 19.968).',
+    guidanceText: 'En Chile, el Art. 106 de la Ley 19.968 exige acreditar mediación previa obligatoria antes de presentar cualquiera de estas demandas; de lo contrario, el tribunal la rechazará. Debes pedir hora gratuita en un Centro de Mediación Licitado (mediacionchile.gob.cl con tu ClaveÚnica) o con un mediador privado. Si no hay acuerdo o la otra parte no asiste, te entregarán el Certificado de Mediación Frustrada. Con ese documento en mano, vuelve aquí para presentar tu demanda.',
+  },
+  {
+    id: 'modificacion-alimentos',
+    area: 'familia',
+    name: 'Aumento, rebaja o cese de alimentos',
+    question: '¿Existe una pensión aprobada judicialmente y ya realizaste mediación previa para intentar modificarla?',
+    yesLabel: 'Sí, cumplo / lo tengo',
+    noLabel: 'Aún no / No estoy seguro',
+    requirementConfirmedText: 'Pensión formalmente vigente y mediación previa realizada.',
+    guidanceText: 'Para modificar una pensión se requiere que exista una resolución o acuerdo aprobado previamente y haber pasado por mediación familiar (mediacionchile.gob.cl). Además, deberás acreditar un cambio sustancial en los ingresos o en la situación de estudios del hijo (como haber cumplido 21 o 28 años). Gestiona primero la mediación frustrada y vuelve con los antecedentes.',
+  },
+  {
+    id: 'cumplimiento-alimentos',
+    area: 'familia',
+    name: 'Cobro de deuda de alimentos y apremios',
+    question: '¿La pensión ya fue decretada por un juez o aprobada en mediación?',
+    yesLabel: 'Sí, decretada o aprobada',
+    noLabel: 'Aún no / Acuerdo de palabra',
+    requirementConfirmedText: 'Pensión fijada por tribunal o mediación homologada.',
+    guidanceText: 'Los acuerdos de palabra no permiten exigir liquidación de deuda ni medidas de apremio (arresto, arraigo o retención). Si la pensión nunca se ha formalizado ante un tribunal o mediador, debes iniciar primero una demanda de alimentos.',
+  },
+  {
+    id: 'cuidado-personal',
+    area: 'familia',
+    name: 'Cuidado personal (Tuición)',
+    question: '¿Cuentas con el Certificado de Mediación Frustrada (o existe una causa vigente de Violencia Intrafamiliar)?',
+    yesLabel: 'Sí, cumplo / lo tengo',
+    noLabel: 'Aún no / No estoy seguro',
+    requirementConfirmedText: 'Cuenta con Certificado de Mediación Frustrada para cuidado personal.',
+    guidanceText: 'En Chile, el Art. 106 de la Ley 19.968 exige acreditar mediación previa obligatoria antes de presentar cualquiera de estas demandas; de lo contrario, el tribunal la rechazará. Debes pedir hora gratuita en un Centro de Mediación Licitado (mediacionchile.gob.cl con tu ClaveÚnica) o con un mediador privado. Si no hay acuerdo o la otra parte no asiste, te entregarán el Certificado de Mediación Frustrada. Con ese documento en mano, vuelve aquí para presentar tu demanda.',
+  },
+  {
+    id: 'relacion-directa',
+    area: 'familia',
+    name: 'Relación directa y regular (Visitas)',
+    question: '¿Cuentas con el Certificado de Mediación Frustrada (o existe una causa vigente de Violencia Intrafamiliar)?',
+    yesLabel: 'Sí, cumplo / lo tengo',
+    noLabel: 'Aún no / No estoy seguro',
+    requirementConfirmedText: 'Cuenta con Certificado de Mediación Frustrada para régimen comunicacional.',
+    guidanceText: 'En Chile, el Art. 106 de la Ley 19.968 exige acreditar mediación previa obligatoria antes de presentar cualquiera de estas demandas; de lo contrario, el tribunal la rechazará. Debes pedir hora gratuita en un Centro de Mediación Licitado (mediacionchile.gob.cl con tu ClaveÚnica) o con un mediador privado. Si no hay acuerdo o la otra parte no asiste, te entregarán el Certificado de Mediación Frustrada. Con ese documento en mano, vuelve aquí para presentar tu demanda.',
+  },
+  {
+    id: 'vif-familia',
+    area: 'familia',
+    name: 'Violencia Intrafamiliar (VIF) ante Tribunal de Familia',
+    isVif: true,
+    question: '¿Existe una situación de riesgo físico inmediato en este momento?',
+    yesLabel: 'Sí, hay peligro actual',
+    noLabel: 'No, la situación está resguardada',
+    requirementConfirmedText: 'Causa VIF ante Tribunal de Familia con seguridad personal resguardada.',
+    emergencyText: 'Si estás frente a una agresión o peligro actual, llama de inmediato a Carabineros (133), PDI (134) o al fono de orientación 1455. Una vez resguardada tu seguridad y hecha la denuncia, contáctame para representarte en el tribunal.',
+  },
+  {
+    id: 'divorcio-mutuo',
+    area: 'familia',
+    name: 'Divorcio de común acuerdo',
+    question: '¿Llevan al menos 1 año separados y tienen un documento oficial que acredite la fecha del cese de convivencia?',
+    yesLabel: 'Sí, cumplimos plazo y documento',
+    noLabel: 'Aún no / No estoy seguro',
+    requirementConfirmedText: 'Más de 1 año de cese de convivencia acreditado documentalmente.',
+    guidanceText: 'Conforme a la Ley de Matrimonio Civil, si se casaron después del 17 de noviembre de 2004, la separación de hecho no se prueba con testigos: solo sirve el Acta de Cese de Convivencia firmada ante el Registro Civil (y notificada judicialmente al otro cónyuge si es unilateral). Si aún no lo has hecho, acude al Registro Civil para dejar constancia formal y que comience a correr el plazo legal.',
+  },
+  {
+    id: 'divorcio-unilateral',
+    area: 'familia',
+    name: 'Divorcio unilateral',
+    question: '¿Llevan al menos 3 años separados y tienen un documento oficial que acredite la fecha del cese de convivencia?',
+    yesLabel: 'Sí, cumplimos plazo y documento',
+    noLabel: 'Aún no / No estoy seguro',
+    requirementConfirmedText: 'Más de 3 años de cese de convivencia acreditado documentalmente.',
+    guidanceText: 'Conforme a la Ley de Matrimonio Civil, si se casaron después del 17 de noviembre de 2004, la separación de hecho no se prueba con testigos: solo sirve el Acta de Cese de Convivencia firmada ante el Registro Civil (y notificada judicialmente al otro cónyuge si es unilateral). Si aún no lo has hecho, acude al Registro Civil para dejar constancia formal y que comience a correr el plazo legal.',
+  },
+
+  // ==================== DERECHO PENAL ====================
+  {
+    id: 'control-detencion',
+    area: 'penal',
+    name: 'Control de detención (Urgencia 24h)',
+    isUrgency: true,
+    requirementConfirmedText: 'Urgencia penal en curso por control de detención 24h.',
+  },
+  {
+    id: 'formalizacion',
+    area: 'penal',
+    name: 'Defensa en investigación y formalización',
+    question: '¿Faltan al menos 3 días hábiles para tu audiencia de formalización o citación en Fiscalía?',
+    yesLabel: 'Sí, faltan 3 o más días hábiles',
+    noLabel: 'No, es en menos de 72 horas',
+    requirementConfirmedText: 'Audiencia con margen superior a 3 días hábiles.',
+    guidanceText: 'Una defensa técnica seria exige solicitar la carpeta investigativa en Fiscalía y reunir documentos de arraigo antes de la audiencia. Si tu citación es en menos de 72 horas hábiles, te recomiendo acudir directamente a la Defensoría Penal Pública asignada en el tribunal para esa primera audiencia, y luego contactarme si deseas que asuma la defensa durante el resto del proceso.',
+  },
+  {
+    id: 'querella-victima',
+    area: 'penal',
+    name: 'Querella penal por víctima',
+    question: '¿Ya estampaste la denuncia en Carabineros, PDI o Fiscalía y cuentas con antecedentes de respaldo?',
+    yesLabel: 'Sí, denuncia hecha y antecedentes',
+    noLabel: 'Aún no / No estoy seguro',
+    requirementConfirmedText: 'Denuncia realizada y medios probatorios iniciales recopilados.',
+    guidanceText: 'Antes de redactar una querella es indispensable resguardar toda la evidencia (comprobantes de transferencia, contratos, correos o constatación de lesiones) y realizar la denuncia ante Fiscalía o policía para obtener el número RUC de la causa. Reúne esos documentos y vuelve aquí para evaluar la querella.',
+  },
+  {
+    id: 'ley-emilia',
+    area: 'penal',
+    name: 'Delitos Ley 18.290 (Conducción en estado de ebriedad)',
+    isDirect: true,
+    requirementConfirmedText: 'Causa penal por conducción Ley 18.290 (atención directa).',
+  },
+  {
+    id: 'recursos-penales',
+    area: 'penal',
+    name: 'Recursos penales (Apelación, nulidad, amparo)',
+    question: '¿La resolución o sentencia fue dictada hace menos de 5 a 10 días (o existe una orden de detención vigente)?',
+    yesLabel: 'Sí, dentro del plazo legal',
+    noLabel: 'No, pasaron más días',
+    requirementConfirmedText: 'Plazo procesal de impugnación vigente.',
+    guidanceText: 'En el proceso penal chileno los plazos para apelar (5 días) o pedir nulidad (10 días) son legales y fatales. Una vez vencido ese plazo, la resolución queda firme y no es posible impugnarla por esta vía.',
+  },
+];
+---
+
+<div id="evaluator-root" class="max-w-3xl mx-auto bg-crema-100 border border-almendra shadow-subtle text-charcoal">
+  
+  <!-- Stepper Header -->
+  <div class="bg-burdeo-900 text-crema px-6 py-5 border-b border-almendra-light/40">
+    <div class="flex items-center justify-between">
+      <div>
+        <span class="text-[11px] font-mono tracking-widest text-almendra uppercase block mb-1">
+          EVALUADOR EN LÍNEA
+        </span>
+        <h2 class="font-serif text-xl sm:text-2xl text-crema font-normal">
+          Filtro de Requisitos Legales
+        </h2>
+      </div>
+      <div id="step-counter" class="text-xs font-mono text-almendra tracking-wider">
+        PASO <span id="current-step-display">1</span> / 3
+      </div>
+    </div>
+
+    <!-- Barra de progreso visual -->
+    <div class="mt-4 grid grid-cols-3 gap-2">
+      <div id="bar-step-1" class="h-1 bg-almendra transition-all"></div>
+      <div id="bar-step-2" class="h-1 bg-crema/20 transition-all"></div>
+      <div id="bar-step-3" class="h-1 bg-crema/20 transition-all"></div>
+    </div>
+  </div>
+
+  <!-- Contenedor con altura mínima estable para evitar saltos molestos -->
+  <div class="p-6 sm:p-10 min-h-[460px] flex flex-col justify-start">
+
+    <!-- ==================== PASO 1: SELECCIÓN DE ÁREA ==================== -->
+    <div id="step-1" class="space-y-6">
+      <div>
+        <h3 class="font-serif text-xl sm:text-2xl text-burdeo-900 mb-2 font-normal">1. Selecciona el área de tu consulta</h3>
+        <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+          Indica la materia jurídica para comprobar los requisitos procesales exigidos por los tribunales chilenos.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+        <!-- Botón Penal -->
+        <button
+          type="button"
+          data-area-choice="penal"
+          class="area-btn text-left p-6 border border-almendra bg-crema hover:border-burdeo hover:bg-crema-200/50 transition-all group focus:outline-none focus:ring-1 focus:ring-burdeo"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-serif text-xl text-burdeo-900 group-hover:text-burdeo font-normal">Derecho Penal</h4>
+            <span class="text-almendra group-hover:text-burdeo transition-transform group-hover:translate-x-1 font-mono">→</span>
+          </div>
+          <p class="text-xs text-charcoal/70 leading-relaxed font-light">
+            Citaciones de Fiscalía, formalizaciones, medidas cautelares, querellas y juicios orales.
+          </p>
+        </button>
+
+        <!-- Botón Familia -->
+        <button
+          type="button"
+          data-area-choice="familia"
+          class="area-btn text-left p-6 border border-almendra bg-crema hover:border-burdeo hover:bg-crema-200/50 transition-all group focus:outline-none focus:ring-1 focus:ring-burdeo"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-serif text-xl text-burdeo-900 group-hover:text-burdeo font-normal">Derecho de Familia</h4>
+            <span class="text-almendra group-hover:text-burdeo transition-transform group-hover:translate-x-1 font-mono">→</span>
+          </div>
+          <p class="text-xs text-charcoal/70 leading-relaxed font-light">
+            Pensión de alimentos, cobro de deudas, cuidado personal, relación directa y regular, y divorcios.
+          </p>
+        </button>
+      </div>
+
+      <div class="pt-6 border-t border-almendra/30 text-xs text-charcoal/60 flex items-center gap-2 font-light">
+        <svg class="w-4 h-4 text-burdeo flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="square" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Jurisdicción presencial en Santiago (RM) y Viña del Mar / Valparaíso (V Región).</span>
+      </div>
+    </div>
+
+
+    <!-- ==================== PASO 2: MATERIA Y PREGUNTAS PRE-CALIFICADORAS ==================== -->
+    <div id="step-2" class="hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <span id="selected-area-badge" class="inline-block text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 bg-burdeo text-crema mb-1">
+            ÁREA SELECCIONADA
+          </span>
+          <h3 class="font-serif text-xl text-burdeo-900 font-normal">2. Identifica tu causa y verifica requisitos</h3>
+        </div>
+        <button 
+          type="button" 
+          id="btn-back-to-step-1"
+          class="text-xs text-burdeo hover:underline flex items-center gap-1 font-mono uppercase tracking-wider"
+        >
+          ← Cambiar área
+        </button>
+      </div>
+
+      <!-- Selector de Materia -->
+      <div>
+        <label for="cause-select" class="block text-xs font-mono uppercase tracking-wider text-charcoal/80 mb-2">
+          Selecciona la materia específica:
+        </label>
+        <select 
+          id="cause-select" 
+          class="w-full bg-crema-200/70 border border-almendra text-charcoal text-sm p-3 focus:border-burdeo focus:ring-1 focus:ring-burdeo cursor-pointer"
+        >
+          <option value="">-- Selecciona una materia --</option>
+        </select>
+      </div>
+
+      <!-- CASO A: URGENCIA CONTROL DE DETENCIÓN (PENAL) -->
+      <div id="urgency-container" class="hidden bg-burdeo-950 text-crema p-6 sm:p-7 border border-almendra/40 space-y-4">
+        <h4 class="font-serif text-2xl text-crema font-normal leading-snug">
+          Control de detención en curso (Plazo fatal 24h)
+        </h4>
+        <p class="text-xs sm:text-sm text-crema/85 leading-relaxed font-light">
+          La ley procesal penal establece un plazo perentorio de 24 horas para poner al detenido a disposición del Juzgado de Garantía. Para cautelar sus garantías constitucionales y preparar la oposición a la prisión preventiva, comunícate de inmediato:
+        </p>
+
+        <!-- Checklist de antecedentes -->
+        <div class="p-3.5 bg-burdeo-900/90 border-l-2 border-almendra text-xs text-crema/90 space-y-1">
+          <span class="font-mono text-[11px] uppercase tracking-wider text-almendra font-semibold block">
+            Información que debes tener a mano:
+          </span>
+          <p class="leading-relaxed font-light">
+            Nombre completo del detenido, RUT, comisaría donde se encuentra y tribunal donde pasará a control.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <a 
+            href={`tel:${OFFICIAL_PHONE}`}
+            class="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-alerta hover:bg-alerta-hover text-crema font-bold text-xs uppercase tracking-wider transition-colors border border-crema/20"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="square" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            <span>Llamar ahora por teléfono</span>
+          </a>
+          <a 
+            id="btn-urgency-whatsapp"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-crema hover:bg-almendra text-burdeo-900 font-bold text-xs uppercase tracking-wider transition-colors"
+          >
+            <span>WhatsApp urgente 24h</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- CASO B: ATENCIÓN DIRECTA (LEY 18.290) -->
+      <div id="direct-container" class="hidden bg-crema-200/60 border border-almendra p-5 space-y-4">
+        <div class="space-y-1">
+          <span class="text-[11px] font-mono uppercase tracking-wider text-burdeo font-semibold block">
+            Atención Directa
+          </span>
+          <p class="text-xs sm:text-sm text-charcoal leading-relaxed font-light">
+            Esta materia cuenta con atención directa sin dilación procesal. Ingresa tus datos para coordinar de inmediato la defensa técnica.
+          </p>
+        </div>
+        <div>
+          <button
+            type="button"
+            id="btn-direct-advance"
+            class="group inline-flex items-center gap-2 px-6 py-3 bg-burdeo text-crema text-xs font-bold uppercase tracking-widest hover:bg-burdeo-800 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+          >
+            <span>Continuar a ingresar datos</span>
+            <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- CASO C: PREGUNTA PRE-CALIFICADORA (PASO DIRECTO CON SÍ) -->
+      <div id="question-container" class="hidden bg-crema-200/50 border border-almendra p-6 space-y-5">
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-wider text-burdeo font-semibold block mb-1">
+            VERIFICACIÓN DE REQUISITO LEGAL
+          </span>
+          <h4 id="question-text" class="font-serif text-lg sm:text-xl text-burdeo-900 leading-snug"></h4>
+        </div>
+
+        <!-- Botones de Respuesta Sí / No (Sí pasa directo a la siguiente etapa) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <button
+            type="button"
+            id="btn-answer-yes"
+            class="group px-5 py-3.5 bg-burdeo text-crema hover:bg-burdeo-800 text-xs font-mono font-medium uppercase tracking-wider transition-all duration-300 text-center flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
+          >
+            <span id="label-answer-yes">Sí, cumplo / lo tengo</span>
+            <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </button>
+          <button
+            type="button"
+            id="btn-answer-no"
+            class="px-5 py-3.5 bg-crema border border-almendra hover:border-burdeo/60 text-charcoal/80 text-xs font-mono font-medium uppercase tracking-wider transition-all text-center"
+          >
+            <span id="label-answer-no">Aún no / No estoy seguro</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TARJETA EDITORIAL: ¿QUÉ DEBES HACER ANTES? (RESPUESTA NO) -->
+      <div id="guidance-card" class="hidden bg-crema border border-almendra p-6 sm:p-7 space-y-4">
+        <span class="text-[11px] font-mono tracking-widest text-burdeo uppercase font-semibold block">
+          ORIENTACIÓN LEGAL PREVIA
+        </span>
+
+        <h4 class="font-serif text-xl sm:text-2xl text-burdeo-900 font-normal leading-snug">
+          ¿Qué debes hacer antes de iniciar esta acción?
+        </h4>
+
+        <p id="guidance-text" class="text-xs sm:text-sm text-charcoal/85 leading-relaxed font-light"></p>
+
+        <!-- Botones de Acción de la Tarjeta de Orientación -->
+        <div class="pt-3 border-t border-almendra/40 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <button
+            type="button"
+            id="btn-guidance-reset"
+            class="px-5 py-3 border border-burdeo text-burdeo hover:bg-burdeo hover:text-crema text-xs font-mono font-medium uppercase tracking-wider transition-colors text-center"
+          >
+            Volver a evaluar otra materia
+          </button>
+          <button
+            type="button"
+            id="btn-guidance-understood"
+            class="px-5 py-3 bg-crema-200/80 hover:bg-almendra text-charcoal text-xs font-mono font-medium uppercase tracking-wider transition-colors text-center"
+          >
+            Entendido, volveré cuando tenga el documento
+          </button>
+        </div>
+
+        <!-- Mensaje de despedida cordial si hace clic en "Entendido" -->
+        <div id="understood-message" class="hidden p-3.5 bg-crema-200/90 border-l-2 border-burdeo text-xs text-charcoal/85 leading-relaxed font-light">
+          Te esperaré cuando dispongas de este trámite para presentar una acción sólida y jurídicamente admisible ante el tribunal. ¡Mucho éxito en tu gestión!
+        </div>
+      </div>
+
+      <!-- ALERTA ESPECIAL VIF (PELIGRO FÍSICO INMEDIATO) -->
+      <div id="vif-emergency-card" class="hidden bg-crema border-2 border-burdeo p-6 space-y-4">
+        <span class="text-alerta text-xs font-mono tracking-widest uppercase font-bold block">
+          ALERTA DE SEGURIDAD FÍSICA INMEDIATA
+        </span>
+
+        <h4 class="font-serif text-xl sm:text-2xl text-burdeo-900 font-normal leading-snug">
+          Atención prioritaria de seguridad
+        </h4>
+
+        <p id="vif-emergency-text" class="text-xs sm:text-sm text-charcoal leading-relaxed font-light"></p>
+
+        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <a
+            href="tel:133"
+            class="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-alerta hover:bg-alerta-hover text-crema font-bold text-xs uppercase tracking-wider transition-colors"
+          >
+            <span>Llamar a Carabineros (133)</span>
+          </a>
+          <a
+            href="tel:1455"
+            class="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-burdeo text-crema font-bold text-xs uppercase tracking-wider transition-colors"
+          >
+            <span>Fono Orientación Violencia (1455)</span>
+          </a>
+        </div>
+
+        <div class="pt-2">
+          <button
+            type="button"
+            id="btn-vif-safe"
+            class="text-xs text-burdeo hover:underline font-mono uppercase tracking-wider"
+          >
+            Ya estoy en un lugar seguro, deseo evaluar mi representación judicial →
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ==================== PASO 3: FICHA DE CONTACTO & WHATSAPP ==================== -->
+    <div id="step-3" class="hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="inline-block text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 bg-burdeo text-crema mb-1">
+            ETAPA FINAL
+          </span>
+          <h3 class="font-serif text-xl sm:text-2xl text-burdeo-900 font-normal">3. Ficha de contacto y canalización</h3>
+        </div>
+        <button 
+          type="button" 
+          id="btn-back-to-step-2"
+          class="text-xs text-burdeo hover:underline flex items-center gap-1 font-mono uppercase tracking-wider"
+        >
+          ← Modificar materia
+        </button>
+      </div>
+
+      <!-- Resumen en colores corporativos con confirmación de calificación -->
+      <div class="bg-crema-200/70 border border-almendra p-4 sm:p-5 space-y-2 text-xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-almendra/40 pb-2">
+          <span class="text-charcoal/60 uppercase font-mono text-[10px]">Causa calificada:</span>
+          <span id="summary-cause-name" class="font-serif text-sm font-semibold text-burdeo-900"></span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-1">
+          <span class="text-charcoal/60 uppercase font-mono text-[10px] flex-shrink-0">Requisito validado:</span>
+          <span id="summary-requirement" class="text-burdeo-900 font-medium sm:text-right"></span>
+        </div>
+      </div>
+
+      <!-- Formulario Mínimo -->
+      <form id="contact-form" class="space-y-4">
+        
+        <div>
+          <label for="client-name" class="block text-xs font-mono uppercase tracking-wider text-charcoal/80 mb-1">
+            Nombre y Apellido <span class="text-burdeo">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="client-name" 
+            required 
+            placeholder="Ej: Carolina Rojas o Roberto Morales"
+            class="w-full bg-crema-200/60 border border-almendra text-charcoal text-sm p-3 focus:border-burdeo focus:ring-1 focus:ring-burdeo"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="client-commune" class="block text-xs font-mono uppercase tracking-wider text-charcoal/80 mb-1">
+              Comuna / Jurisdicción <span class="text-burdeo">*</span>
+            </label>
+            <select 
+              id="client-commune" 
+              required
+              class="w-full bg-crema-200/60 border border-almendra text-charcoal text-sm p-3 focus:border-burdeo focus:ring-1 focus:ring-burdeo"
+            >
+              <option value="">-- Selecciona tu comuna --</option>
+              {COMMUNES.map((comuna) => (
+                <option value={comuna}>{comuna}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label for="client-preference" class="block text-xs font-mono uppercase tracking-wider text-charcoal/80 mb-1">
+              Modalidad preferida <span class="text-burdeo">*</span>
+            </label>
+            <select 
+              id="client-preference" 
+              required
+              class="w-full bg-crema-200/60 border border-almendra text-charcoal text-sm p-3 focus:border-burdeo focus:ring-1 focus:ring-burdeo"
+            >
+              <option id="opt-presencial" value="Presencial en Santiago o Viña del Mar">Presencial en Santiago o Viña del Mar</option>
+              <option id="opt-telematica" value="Videollamada / Telemática">Videollamada / Telemática</option>
+            </select>
+            <p id="preference-hint" class="hidden text-[11px] text-burdeo mt-1.5 font-mono uppercase tracking-wider">
+              Atención telemática obligatoria para causas fuera de Santiago y V Región
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <label for="client-details" class="block text-xs font-mono uppercase tracking-wider text-charcoal/80 mb-1">
+            Resumen breve o antecedentes <span class="text-charcoal/50 text-[10px] font-sans">(Opcional, máx. 280 caracteres)</span>
+          </label>
+          <textarea 
+            id="client-details" 
+            rows="3" 
+            maxlength="280"
+            placeholder="Indica brevemente el tribunal, monto o situación relevante..."
+            class="w-full bg-crema-200/60 border border-almendra text-charcoal text-sm p-3 focus:border-burdeo focus:ring-1 focus:ring-burdeo resize-none font-light"
+          ></textarea>
+        </div>
+
+        <!-- Botón de Envío a WhatsApp -->
+        <div class="pt-2">
+          <button 
+            type="submit" 
+            class="w-full group inline-flex items-center justify-center gap-3 px-8 py-4 bg-burdeo text-crema text-xs font-bold uppercase tracking-widest hover:bg-burdeo-800 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+          >
+            <span>Continuar en WhatsApp</span>
+            <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1.5">→</span>
+          </button>
+          <p class="text-[11px] text-charcoal/60 text-center mt-3 font-light">
+            Se abrirá WhatsApp directamente con tu consulta estructurada para que Ricardo Guzmán evalúe tu caso.
+          </p>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<script is:inline define:vars={{ MATERIAS_CONFIG, OFFICIAL_PHONE }}>
+  // Variables de Estado
+  let currentMateria = null;
+  let confirmedRequirementText = '';
+
+  // Elementos DOM
+  const step1 = document.getElementById('step-1');
+  const step2 = document.getElementById('step-2');
+  const step3 = document.getElementById('step-3');
+
+  const barStep1 = document.getElementById('bar-step-1');
+  const barStep2 = document.getElementById('bar-step-2');
+  const barStep3 = document.getElementById('bar-step-3');
+  const stepDisplay = document.getElementById('current-step-display');
+
+  const causeSelect = document.getElementById('cause-select');
+  const selectedAreaBadge = document.getElementById('selected-area-badge');
+
+  // Contenedores del Paso 2
+  const urgencyContainer = document.getElementById('urgency-container');
+  const directContainer = document.getElementById('direct-container');
+  const btnDirectAdvance = document.getElementById('btn-direct-advance');
+  const questionContainer = document.getElementById('question-container');
+  const questionText = document.getElementById('question-text');
+  const btnAnswerYes = document.getElementById('btn-answer-yes');
+  const btnAnswerNo = document.getElementById('btn-answer-no');
+  const labelAnswerYes = document.getElementById('label-answer-yes');
+  const labelAnswerNo = document.getElementById('label-answer-no');
+
+  const guidanceCard = document.getElementById('guidance-card');
+  const guidanceText = document.getElementById('guidance-text');
+  const btnGuidanceReset = document.getElementById('btn-guidance-reset');
+  const btnGuidanceUnderstood = document.getElementById('btn-guidance-understood');
+  const understoodMessage = document.getElementById('understood-message');
+
+  const vifEmergencyCard = document.getElementById('vif-emergency-card');
+  const vifEmergencyText = document.getElementById('vif-emergency-text');
+  const btnVifSafe = document.getElementById('btn-vif-safe');
+
+  const btnBackToStep1 = document.getElementById('btn-back-to-step-1');
+  const btnBackToStep2 = document.getElementById('btn-back-to-step-2');
+  const btnUrgencyWhatsapp = document.getElementById('btn-urgency-whatsapp');
+
+  const summaryCauseName = document.getElementById('summary-cause-name');
+  const summaryRequirement = document.getElementById('summary-requirement');
+  const contactForm = document.getElementById('contact-form');
+
+  const clientCommune = document.getElementById('client-commune');
+  const clientPreference = document.getElementById('client-preference');
+  const optPresencial = document.getElementById('opt-presencial');
+  const preferenceHint = document.getElementById('preference-hint');
+
+  // Ajuste automático de modalidad según comuna seleccionada
+  clientCommune?.addEventListener('change', () => {
+    const val = clientCommune.value;
+    const isOtherRegion = val.includes('Otra región') || val.includes('telemática');
+
+    if (isOtherRegion) {
+      if (clientPreference) clientPreference.value = 'Videollamada / Telemática';
+      if (optPresencial) {
+        optPresencial.disabled = true;
+        optPresencial.hidden = true;
+      }
+      if (preferenceHint) preferenceHint.classList.remove('hidden');
+    } else {
+      if (optPresencial) {
+        optPresencial.disabled = false;
+        optPresencial.hidden = false;
+      }
+      if (preferenceHint) preferenceHint.classList.add('hidden');
+    }
+  });
+
+  // Actualizar Stepper UI de forma limpia y estable (sin scroll brusco)
+  function setStep(step) {
+    if (stepDisplay) stepDisplay.textContent = step.toString();
+
+    step1.classList.toggle('hidden', step !== 1);
+    step2.classList.toggle('hidden', step !== 2);
+    step3.classList.toggle('hidden', step !== 3);
+
+    // Barras de progreso
+    barStep1.className = step >= 1 ? 'h-1 bg-almendra transition-all' : 'h-1 bg-crema/20 transition-all';
+    barStep2.className = step >= 2 ? 'h-1 bg-almendra transition-all' : 'h-1 bg-crema/20 transition-all';
+    barStep3.className = step >= 3 ? 'h-1 bg-almendra transition-all' : 'h-1 bg-crema/20 transition-all';
+  }
+
+  // Cargar causas del área elegida
+  function loadCausesForArea(area) {
+    if (selectedAreaBadge) {
+      selectedAreaBadge.textContent = area === 'penal' ? 'DERECHO PENAL' : 'DERECHO DE FAMILIA';
+    }
+
+    causeSelect.innerHTML = '<option value="">-- Selecciona una materia --</option>';
+    const filtered = MATERIAS_CONFIG.filter((c) => c.area === area);
+    filtered.forEach((c) => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.isUrgency ? `[URGENCIA] ${c.name}` : c.name;
+      causeSelect.appendChild(opt);
+    });
+
+    hideAllPaso2Panels();
+  }
+
+  function hideAllPaso2Panels() {
+    urgencyContainer.classList.add('hidden');
+    directContainer.classList.add('hidden');
+    questionContainer.classList.add('hidden');
+    guidanceCard.classList.add('hidden');
+    understoodMessage.classList.add('hidden');
+    vifEmergencyCard.classList.add('hidden');
+  }
+
+  // Manejar cambio de causa seleccionada
+  function handleCauseChange(causeId) {
+    currentMateria = MATERIAS_CONFIG.find((c) => c.id === causeId) || null;
+    hideAllPaso2Panels();
+
+    if (!currentMateria) return;
+
+    // 1. Caso Urgencia (Control de Detención)
+    if (currentMateria.isUrgency) {
+      urgencyContainer.classList.remove('hidden');
+      const cleanPhone = OFFICIAL_PHONE.replace(/[^0-9]/g, '');
+      const urgencyMsg = encodeURIComponent(
+        '*URGENCIA PENAL · CONTROL DE DETENCIÓN*\nRequiero asistencia jurídica urgente para una persona privada de libertad en las últimas 24 horas.\nSantiago / Viña del Mar'
+      );
+      if (btnUrgencyWhatsapp) {
+        btnUrgencyWhatsapp.href = `https://wa.me/${cleanPhone}?text=${urgencyMsg}`;
+      }
+      return;
+    }
+
+    // 2. Caso Directo (Ley 18.290)
+    if (currentMateria.isDirect) {
+      directContainer.classList.remove('hidden');
+      confirmedRequirementText = currentMateria.requirementConfirmedText;
+      return;
+    }
+
+    // 3. Caso VIF
+    if (currentMateria.isVif) {
+      questionContainer.classList.remove('hidden');
+      questionText.textContent = currentMateria.question;
+      labelAnswerYes.textContent = currentMateria.yesLabel || 'Sí';
+      labelAnswerNo.textContent = currentMateria.noLabel || 'No';
+      return;
+    }
+
+    // 4. Casos Regulares con Pregunta
+    questionContainer.classList.remove('hidden');
+    questionText.textContent = currentMateria.question || '¿Cumples con los antecedentes requeridos?';
+    labelAnswerYes.textContent = currentMateria.yesLabel || 'Sí, cumplo / lo tengo';
+    labelAnswerNo.textContent = currentMateria.noLabel || 'Aún no / No estoy seguro';
+  }
+
+  // Cuando el usuario responde SÍ: avanza DIRECTO al Paso 3 (sin clics extras)
+  btnAnswerYes?.addEventListener('click', () => {
+    if (!currentMateria) return;
+
+    if (currentMateria.isVif) {
+      // En VIF, si hay riesgo físico inmediato: mostrar alerta de seguridad
+      guidanceCard.classList.add('hidden');
+      vifEmergencyCard.classList.remove('hidden');
+      vifEmergencyText.textContent = currentMateria.emergencyText || '';
+      return;
+    }
+
+    // Caso ordinario Sí: avanza DIRECTAMENTE a la etapa 3
+    confirmedRequirementText = currentMateria.requirementConfirmedText;
+    goToStep3();
+  });
+
+  // Cuando el usuario responde NO: muestra tarjeta de orientación
+  btnAnswerNo?.addEventListener('click', () => {
+    if (!currentMateria) return;
+
+    if (currentMateria.isVif) {
+      // En VIF, si NO hay riesgo físico inmediato: está a salvo para patrocinio judicial
+      vifEmergencyCard.classList.add('hidden');
+      confirmedRequirementText = currentMateria.requirementConfirmedText;
+      goToStep3();
+      return;
+    }
+
+    // Caso ordinario No: NO enviar a WhatsApp, mostrar orientación legal
+    questionContainer.classList.add('hidden');
+    vifEmergencyCard.classList.add('hidden');
+    understoodMessage.classList.add('hidden');
+    guidanceCard.classList.remove('hidden');
+    guidanceText.textContent = currentMateria.guidanceText || '';
+  });
+
+  // Acciones de la Tarjeta de Orientación
+  btnGuidanceReset?.addEventListener('click', () => {
+    causeSelect.value = '';
+    hideAllPaso2Panels();
+  });
+
+  btnGuidanceUnderstood?.addEventListener('click', () => {
+    understoodMessage.classList.remove('hidden');
+  });
+
+  // Botón cuando la persona con VIF ya está a salvo
+  btnVifSafe?.addEventListener('click', () => {
+    vifEmergencyCard.classList.add('hidden');
+    confirmedRequirementText = currentMateria.requirementConfirmedText;
+    goToStep3();
+  });
+
+  // Botón de caso directo a Paso 3
+  btnDirectAdvance?.addEventListener('click', () => {
+    goToStep3();
+  });
+
+  function goToStep3() {
+    if (!currentMateria) return;
+    if (summaryCauseName) summaryCauseName.textContent = currentMateria.name;
+    if (summaryRequirement) summaryRequirement.textContent = confirmedRequirementText || 'Requisito legal comprobado';
+    setStep(3);
+  }
+
+  // Event Listeners: Paso 1
+  document.querySelectorAll('.area-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const area = btn.getAttribute('data-area-choice');
+      if (area) {
+        loadCausesForArea(area);
+        setStep(2);
+      }
+    });
+  });
+
+  // Event Listener: Cambio de Materia en Paso 2
+  causeSelect?.addEventListener('change', (e) => {
+    const val = e.target.value;
+    handleCauseChange(val);
+  });
+
+  // Navegación Atrás
+  btnBackToStep1?.addEventListener('click', () => {
+    setStep(1);
+  });
+
+  btnBackToStep2?.addEventListener('click', () => {
+    setStep(2);
+  });
+
+  // Envío del Formulario (Paso 3 -> WhatsApp)
+  contactForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('client-name').value.trim();
+    const commune = document.getElementById('client-commune').value;
+    const preference = document.getElementById('client-preference').value;
+    const details = document.getElementById('client-details').value.trim();
+
+    if (!name || !commune) return;
+
+    const areaTitle = currentMateria?.area === 'penal' ? 'DERECHO PENAL' : 'DERECHO DE FAMILIA';
+    const cleanPhone = OFFICIAL_PHONE.replace(/[^0-9]/g, '');
+
+    const lines = [
+      `*CONSULTA PROFESIONAL · ${areaTitle}*`,
+      `*Materia:* ${currentMateria?.name}`,
+      `*Cliente:* ${name}`,
+      `*Comuna:* ${commune} (${preference})`,
+      `*Requisito validado:* ${confirmedRequirementText}`,
+      `*Resumen preliminar:* ${details && details.length > 0 ? details : 'Sin detalles adicionales especificados.'}`,
+      `---`,
+      `Estimado abogado Ricardo Guzmán, he verificado los requisitos legales de mi causa y solicito evaluar mi representación.`,
+    ];
+
+    const message = lines.join('\n');
+    const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+
+    window.open(waUrl, '_blank');
+  });
+
+  // ==================== AUTO-PRESELECCIÓN POR PARÁMETROS URL ====================
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const areaParam = params.get('area');
+    const materiaParam = params.get('materia');
+
+    if (areaParam === 'penal' || areaParam === 'familia') {
+      loadCausesForArea(areaParam);
+      setStep(2);
+
+      if (materiaParam) {
+        const exists = MATERIAS_CONFIG.some((c) => c.id === materiaParam && c.area === areaParam);
+        if (exists) {
+          causeSelect.value = materiaParam;
+          handleCauseChange(materiaParam);
+        }
+      }
+    }
+  });
+</script>

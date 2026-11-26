@@ -1,0 +1,256 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { OFFICIAL_PHONE, buildUrgencyWhatsAppLink } from '../data/causes';
+
+const urgencyWhatsAppUrl = buildUrgencyWhatsAppLink();
+
+const penalCauses = [
+  {
+    id: 'formalizacion',
+    name: 'Defensa en investigación y formalización',
+    condition: 'Mínimo 3 días hábiles antes de la audiencia',
+    description: 'Representación técnica ante citaciones de Fiscalía y audiencias de formalización, revisando previamente la carpeta investigativa.',
+    isUrgent: false,
+  },
+  {
+    id: 'control-detencion',
+    name: 'Control de detención (Urgencia)',
+    condition: 'Contacto telefónico inmediato (24 horas)',
+    description: 'Asistencia urgente en primeras diligencias y audiencia de control ante el Juzgado de Garantía para cautelar sus derechos.',
+    isUrgent: true,
+  },
+  {
+    id: 'querella-victima',
+    name: 'Querella penal por víctima',
+    condition: 'Requiere denuncia previa y antecedentes',
+    description: 'Redacción, interposición y seguimiento de querellas por estafas, lesiones, amenazas y delitos contra la propiedad.',
+    isUrgent: false,
+  },
+  {
+    id: 'ley-emilia',
+    name: 'Delitos Ley 18.290 (Manejo en estado de ebriedad)',
+    condition: 'Atención directa sin dilación',
+    description: 'Defensa técnica en procedimientos por manejo en estado de ebriedad o bajo influencia del alcohol, salidas alternativas y cautela de licencia.',
+    isUrgent: false,
+  },
+  {
+    id: 'recursos-penales',
+    name: 'Recursos penales (Apelación, nulidad, amparo)',
+    condition: 'Revisión personal y plazo legal vigente',
+    description: 'Interposición y alegatos de recursos ante las Cortes de Apelaciones y Corte Suprema frente a resoluciones gravosas o detenciones ilegales.',
+    isUrgent: false,
+  },
+];
+---
+
+<BaseLayout
+  title="Defensa Penal Técnica · Santiago y Región de Valparaíso | Ricardo Guzmán"
+  description="Asumo personalmente su defensa técnica penal o querella ante Fiscalías, Juzgados de Garantía y Tribunales Orales de Santiago y la V Región. Control de detención 24h, formalizaciones y recursos."
+>
+  <!-- ==================== 1. CABECERA ASIMÉTRICA CON URGENCIA 24H (65% / 35%) ==================== -->
+  <section class="relative bg-burdeo-900 text-crema overflow-hidden border-b border-almendra-light/30">
+    <!-- Efectos de fondo arquitectónicos -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-radial from-burdeo-800/25 via-transparent to-transparent blur-3xl"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(226,206,183,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(226,206,183,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+      <div class="absolute right-6 top-1/2 -translate-y-1/2 opacity-[0.03] w-[450px] h-[450px]">
+        <img src="/images/logo-rg-claro.svg" alt="" class="w-full h-full object-contain" />
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <!-- Columna Izquierda: ~65% (lg:col-span-7) -->
+        <div class="lg:col-span-7 space-y-6">
+          <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-crema leading-[1.15] font-normal">
+            Defensa penal técnica y representación de víctimas.
+          </h1>
+
+          <p class="text-sm sm:text-base lg:text-lg text-crema/90 leading-relaxed max-w-2xl font-light">
+            Asumo personalmente su defensa o querella ante el Ministerio Público, Juzgados de Garantía y Tribunales Orales. Estudiaré sus antecedentes con rigor para definir una estrategia fundada y realista.
+          </p>
+
+          <div class="pt-2">
+            <a 
+              href="/evaluar?area=penal" 
+              class="group inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-crema text-burdeo-900 text-xs font-bold uppercase tracking-widest hover:bg-almendra transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+            >
+              <span>Evaluar causa penal</span>
+              <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: ~35% (lg:col-span-5) Tarjeta Limpia de Urgencia -->
+        <div class="lg:col-span-5">
+          <div class="bg-burdeo-950/70 border border-almendra/40 p-6 sm:p-7 space-y-4 relative shadow-lg">
+            <h2 class="font-serif text-2xl text-crema font-normal leading-snug">
+              Control de detención 24h
+            </h2>
+
+            <p class="text-xs sm:text-sm text-crema/85 leading-relaxed font-light">
+              Si un familiar fue detenido, el plazo legal para pasar a audiencia ante el Juzgado de Garantía es de máximo 24 horas. La intervención temprana es clave para discutir la legalidad de la detención y medidas cautelares.
+            </p>
+
+            <div class="flex flex-col sm:flex-row lg:flex-col gap-2.5 pt-1">
+              <a 
+                href={`tel:${OFFICIAL_PHONE}`}
+                class="group inline-flex items-center justify-center gap-2.5 px-4 py-3 bg-alerta hover:bg-alerta-hover text-crema text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 border border-crema/20"
+              >
+                <svg class="w-4 h-4 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="square" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span>Llamada de urgencia</span>
+              </a>
+              <a 
+                href={urgencyWhatsAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group inline-flex items-center justify-center gap-2 px-4 py-3 bg-crema hover:bg-almendra text-burdeo-900 text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+              >
+                <span>WhatsApp de urgencia</span>
+                <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 2. MATRIZ EDITORIAL DE MATERIAS Y REQUISITOS ==================== -->
+  <section class="py-20 lg:py-24 bg-crema text-charcoal">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Encabezado balanceado de la sección -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-burdeo font-semibold block mb-2">
+            MATERIAS Y CRITERIOS DE ADMISIBILIDAD
+          </span>
+          <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl text-burdeo-900 leading-tight">
+            Causas que asumo en sede penal
+          </h2>
+        </div>
+        <p class="text-xs sm:text-sm text-charcoal/70 max-w-md font-light">
+          Cada causa requiere verificar condiciones procesales y plazos legales estrictos antes de formalizar la representación.
+        </p>
+      </div>
+
+      <!-- Encabezado de columnas visible en pantallas grandes -->
+      <div class="hidden lg:grid grid-cols-12 gap-6 pb-3 border-b-2 border-almendra text-[11px] font-mono tracking-widest text-burdeo uppercase font-semibold">
+        <div class="col-span-4">Causa o Materia</div>
+        <div class="col-span-3">Condición de Atención</div>
+        <div class="col-span-3">Alcance de la Defensa</div>
+        <div class="col-span-2 text-right">Evaluación</div>
+      </div>
+
+      <!-- Lista con filetes en Almendra y estructura equilibrada de 4 columnas -->
+      <div class="border-b border-almendra divide-y divide-almendra/60">
+        {penalCauses.map((cause) => (
+          <div class="py-7 lg:py-8 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start lg:items-center">
+            
+            <!-- Columna 1: Nombre de la causa (4 columnas) -->
+            <div class="lg:col-span-4 space-y-1">
+              <span class="lg:hidden text-[10px] font-mono uppercase tracking-wider text-burdeo font-semibold block">
+                Materia Penal
+              </span>
+              <h3 class="font-serif text-xl sm:text-2xl text-burdeo-900 leading-snug">
+                {cause.name}
+              </h3>
+            </div>
+
+            <!-- Columna 2: Condición de Atención con acento lateral sobrio (sin puntos ni etiquetas robóticas) -->
+            <div class="lg:col-span-3">
+              <span class="lg:hidden text-[10px] font-mono uppercase tracking-wider text-burdeo font-semibold block mb-1">
+                Condición de Atención
+              </span>
+              <div class={`px-3.5 py-2.5 text-xs leading-snug border-l-2 ${
+                cause.isUrgent 
+                  ? 'bg-alerta/15 border-alerta text-burdeo-900 font-semibold' 
+                  : 'bg-crema-200/90 border-burdeo/60 text-charcoal font-medium'
+              }`}>
+                {cause.condition}
+              </div>
+            </div>
+
+            <!-- Columna 3: Descripción en 1ª persona (3 columnas) -->
+            <div class="lg:col-span-3">
+              <span class="lg:hidden text-[10px] font-mono uppercase tracking-wider text-burdeo font-semibold block mb-1">
+                Enfoque
+              </span>
+              <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+                {cause.description}
+              </p>
+            </div>
+
+            <!-- Columna 4: Botón de Acción con animación hover fluida -->
+            <div class="lg:col-span-2 lg:text-right pt-2 lg:pt-0">
+              <a 
+                href={`/evaluar?area=penal&materia=${cause.id}`}
+                class="group inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-burdeo text-crema hover:bg-burdeo-800 text-xs font-mono font-medium uppercase tracking-wider transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 w-full lg:w-auto text-center"
+              >
+                <span>Evaluar</span>
+                <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1.5">→</span>
+              </a>
+            </div>
+
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 3. FRANJA DE ALCANCE Y COBERTURA ==================== -->
+  <section class="py-16 sm:py-20 bg-crema-100 text-charcoal border-t border-almendra/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-almendra/60">
+        
+        <!-- Columna 1: Defensa de Imputados -->
+        <div class="py-6 md:py-0 md:px-8 first:pl-0 space-y-3">
+          <span class="text-[11px] font-mono tracking-widest text-burdeo uppercase font-semibold block">
+            DEFENSA TÉCNICA
+          </span>
+          <h3 class="font-serif text-xl text-burdeo-900 leading-snug">
+            Defensa de Imputados
+          </h3>
+          <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            Acompañamiento técnico desde las primeras diligencias ante Fiscalía hasta el juicio oral.
+          </p>
+        </div>
+
+        <!-- Columna 2: Representación de Víctimas -->
+        <div class="py-6 md:py-0 md:px-8 space-y-3">
+          <span class="text-[11px] font-mono tracking-widest text-burdeo uppercase font-semibold block">
+            ACCIÓN PENAL
+          </span>
+          <h3 class="font-serif text-xl text-burdeo-900 leading-snug">
+            Representación de Víctimas
+          </h3>
+          <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            Ejercicio de la acción penal privada o particular mediante querellas fundadas en antecedentes.
+          </p>
+        </div>
+
+        <!-- Columna 3: Jurisdicción Presencial -->
+        <div class="py-6 md:py-0 md:px-8 last:pr-0 space-y-3">
+          <span class="text-[11px] font-mono tracking-widest text-burdeo uppercase font-semibold block">
+            TERRITORIO JUDICIAL
+          </span>
+          <h3 class="font-serif text-xl text-burdeo-900 leading-snug">
+            Jurisdicción Presencial
+          </h3>
+          <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            Comparecencia directa en tribunales de Santiago, Viña del Mar y Valparaíso.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>

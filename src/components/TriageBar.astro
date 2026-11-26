@@ -1,0 +1,114 @@
+---
+import { CAUSES_DATA } from '../data/causes';
+
+const penalCauses = CAUSES_DATA.filter((c) => c.area === 'penal');
+const familiaCauses = CAUSES_DATA.filter((c) => c.area === 'familia');
+---
+
+<section class="relative z-20 -mt-8 sm:-mt-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" aria-label="Triaje rápido de causas">
+  <div class="bg-crema text-charcoal border border-almendra shadow-subtle p-6 lg:p-8">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      
+      <!-- Encabezado del Triaje Rápido -->
+      <div class="lg:w-1/4">
+        <span class="block text-[11px] font-mono uppercase tracking-widest text-burdeo font-semibold mb-1">
+          TRIAJE PRELIMINAR
+        </span>
+        <h2 class="font-serif text-lg sm:text-xl text-burdeo-900 leading-tight">
+          Califique la viabilidad de su causa
+        </h2>
+      </div>
+
+      <!-- Formulario de Selección Rápida -->
+      <form id="quick-triage-form" class="lg:w-3/4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+        
+        <!-- Selector 1: Área -->
+        <div class="flex-1">
+          <label for="quick-area" class="block text-xs font-medium text-charcoal/70 uppercase tracking-wider mb-1">
+            1. Área Jurídica
+          </label>
+          <select 
+            id="quick-area" 
+            name="area" 
+            class="w-full bg-crema-200/50 border border-almendra text-charcoal text-sm px-3.5 py-2.5 focus:border-burdeo focus:ring-1 focus:ring-burdeo cursor-pointer"
+          >
+            <option value="penal">Derecho Penal (Investigaciones, Formalizaciones, Querellas)</option>
+            <option value="familia">Derecho de Familia (Alimentos, Visitas, Cuidado, Divorcio)</option>
+          </select>
+        </div>
+
+        <!-- Selector 2: Materia Específica -->
+        <div class="flex-1">
+          <label for="quick-materia" class="block text-xs font-medium text-charcoal/70 uppercase tracking-wider mb-1">
+            2. Materia o Situación
+          </label>
+          <select 
+            id="quick-materia" 
+            name="materia" 
+            class="w-full bg-crema-200/50 border border-almendra text-charcoal text-sm px-3.5 py-2.5 focus:border-burdeo focus:ring-1 focus:ring-burdeo cursor-pointer"
+          >
+            <!-- Llenado dinámico vía JS -->
+          </select>
+        </div>
+
+        <!-- Botón de Envío -->
+        <div class="sm:self-end">
+          <button 
+            type="submit" 
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-burdeo text-crema text-xs font-bold uppercase tracking-widest hover:bg-burdeo-700 transition-colors border border-burdeo-900"
+          >
+            <span>Evaluar Causa</span>
+            <svg class="w-4 h-4 text-almendra" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+    <!-- Microcopy de Confianza -->
+    <div class="mt-4 pt-3 border-t border-almendra/30 flex flex-wrap items-center justify-between text-[11px] text-charcoal/70 gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-burdeo"></span>
+        <span>Atención directa por abogado habilitado por la Corte Suprema.</span>
+      </div>
+      <span>Santiago · Viña del Mar · Cobertura presencial y telemática</span>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ penalCauses, familiaCauses }}>
+  const areaSelect = document.getElementById('quick-area');
+  const materiaSelect = document.getElementById('quick-materia');
+  const triageForm = document.getElementById('quick-triage-form');
+
+  function updateMaterias(area) {
+    if (!materiaSelect) return;
+    materiaSelect.innerHTML = '';
+    const causes = area === 'penal' ? penalCauses : familiaCauses;
+    causes.forEach((c) => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.isUrgency ? `[URGENCIA] ${c.name}` : c.name;
+      materiaSelect.appendChild(opt);
+    });
+  }
+
+  if (areaSelect && materiaSelect && triageForm) {
+    areaSelect.addEventListener('change', (e) => {
+      updateMaterias(e.target.value);
+    });
+
+    // Inicializar con el valor por defecto
+    updateMaterias(areaSelect.value);
+
+    triageForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const area = areaSelect.value;
+      const materia = materiaSelect.value;
+      window.location.href = `/evaluar?area=${encodeURIComponent(area)}&materia=${encodeURIComponent(materia)}`;
+    });
+  }
+</script>

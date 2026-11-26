@@ -1,0 +1,111 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+  schemaType?: 'Attorney' | 'LegalService';
+}
+
+const {
+  title = 'Ricardo Guzmán · Abogado Litigante | Santiago y Viña del Mar',
+  description = 'Defensa penal técnica y litigación estratégica en derecho de familia. Atención presencial en Santiago y Viña del Mar, y telemática en todo Chile. Rigor procesal y trato directo.',
+  ogImage = '/images/og-image.png',
+  canonicalUrl = Astro.url.href,
+  schemaType = 'Attorney',
+} = Astro.props;
+
+const siteUrl = 'https://ricardoguzman.cl';
+const absoluteOgImage = new URL(ogImage, siteUrl).href;
+
+// JSON-LD Schema
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@type': schemaType,
+  name: 'Ricardo Guzmán · Abogado Litigante',
+  url: siteUrl,
+  logo: `${siteUrl}/images/logo-rg-claro.svg`,
+  image: `${siteUrl}/images/ricardo-guzman.png`,
+  description: description,
+  telephone: '+56984249110',
+  email: 'contacto@ricardoguzman.cl',
+  priceRange: '$$',
+  address: [
+    {
+      '@type': 'PostalAddress',
+      addressLocality: 'Santiago',
+      addressRegion: 'Región Metropolitana',
+      addressCountry: 'CL',
+    },
+    {
+      '@type': 'PostalAddress',
+      addressLocality: 'Viña del Mar',
+      addressRegion: 'Región de Valparaíso',
+      addressCountry: 'CL',
+    },
+  ],
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Región Metropolitana de Santiago' },
+    { '@type': 'AdministrativeArea', name: 'Región de Valparaíso' },
+    { '@type': 'Country', name: 'Chile' },
+  ],
+  knowsAbout: [
+    'Derecho Penal',
+    'Control de Detención',
+    'Defensa en Formalización',
+    'Derecho de Familia',
+    'Pensión de Alimentos',
+    'Cobro de Pensiones y Apremios',
+    'Divorcio',
+    'Cuidado Personal',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="es-CL">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Ricardo Guzmán · Abogado Litigante" />
+    <meta name="geo.region" content="CL-RM, CL-VS" />
+    <meta name="geo.placename" content="Santiago, Viña del Mar" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:site_name" content="Ricardo Guzmán · Abogado Litigante" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  </head>
+  <body class="bg-crema text-charcoal min-h-screen flex flex-col font-sans selection:bg-burdeo selection:text-crema">
+    <Header />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

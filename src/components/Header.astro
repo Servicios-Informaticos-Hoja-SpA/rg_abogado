@@ -1,0 +1,128 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-burdeo-900/95 backdrop-blur-md border-b border-almendra-light transition-all">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-3 items-center h-20">
+      
+      <!-- Bloque 1 (Izquierda): Logo Marca Oficial -->
+      <div class="justify-self-start flex items-center">
+        <a href="/" class="flex items-center gap-3 group" aria-label="Inicio - Ricardo Guzmán Abogado Litigante">
+          <img 
+            src="/images/logo-rg-horizontal-claro.svg" 
+            alt="Ricardo Guzmán · Abogado Litigante" 
+            class="h-8 sm:h-10 w-auto object-contain transition-opacity group-hover:opacity-90"
+            width="210"
+            height="42"
+          />
+        </a>
+      </div>
+
+      <!-- Bloque 2 (Centro exacto siempre): Navegación Desktop -->
+      <nav class="hidden md:flex justify-self-center items-center gap-8 text-xs tracking-widest font-medium text-crema" aria-label="Navegación principal">
+        <a 
+          href="/" 
+          class={`transition-colors py-2 relative whitespace-nowrap ${currentPath === '/' ? 'text-almendra' : 'hover:text-almendra'}`}
+        >
+          INICIO
+          {currentPath === '/' && (
+            <span class="absolute bottom-0 left-0 right-0 h-[2px] bg-almendra" />
+          )}
+        </a>
+        <a 
+          href="/penal" 
+          class={`transition-colors py-2 relative whitespace-nowrap ${currentPath === '/penal' ? 'text-almendra' : 'hover:text-almendra'}`}
+        >
+          DERECHO PENAL
+          {currentPath === '/penal' && (
+            <span class="absolute bottom-0 left-0 right-0 h-[2px] bg-almendra" />
+          )}
+        </a>
+        <a 
+          href="/familia" 
+          class={`transition-colors py-2 relative whitespace-nowrap ${currentPath === '/familia' ? 'text-almendra' : 'hover:text-almendra'}`}
+        >
+          DERECHO DE FAMILIA
+          {currentPath === '/familia' && (
+            <span class="absolute bottom-0 left-0 right-0 h-[2px] bg-almendra" />
+          )}
+        </a>
+      </nav>
+
+      <!-- Bloque 3 (Derecha): Acción y Jurisdicción (Desktop) & Menú Móvil -->
+      <div class="justify-self-end flex items-center justify-end gap-5">
+        <div class="hidden lg:block text-right">
+          <span class="block text-[10px] uppercase tracking-wider text-almendra font-medium">Jurisdicción</span>
+          <span class="block text-xs text-crema/80 whitespace-nowrap">Santiago · Viña del Mar</span>
+        </div>
+        <a 
+          href="/evaluar" 
+          class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-xs font-semibold tracking-wider uppercase border border-almendra text-crema bg-burdeo hover:bg-almendra hover:text-burdeo-900 transition-all duration-200 whitespace-nowrap"
+        >
+          Evaluar Caso
+        </a>
+
+        <!-- Botón Menú Móvil -->
+        <div class="flex md:hidden items-center gap-2">
+          <a 
+            href="/evaluar" 
+            class="sm:hidden inline-flex items-center px-3 py-1.5 text-[11px] font-semibold tracking-wider uppercase border border-almendra text-crema bg-burdeo"
+          >
+            Evaluar
+          </a>
+          <button 
+            id="mobile-menu-btn"
+            type="button" 
+            class="p-2 text-crema hover:text-almendra focus:outline-none"
+            aria-label="Abrir menú de navegación"
+            aria-expanded="false"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Drawer Menú Móvil -->
+  <div 
+    id="mobile-menu" 
+    class="hidden md:hidden bg-burdeo-900 border-b border-almendra-light px-6 py-6 space-y-4"
+  >
+    <div class="flex flex-col space-y-4 text-sm font-medium tracking-wider text-crema">
+      <a href="/" class="py-2 border-b border-almendra-light/20 hover:text-almendra">INICIO</a>
+      <a href="/penal" class="py-2 border-b border-almendra-light/20 hover:text-almendra">DERECHO PENAL</a>
+      <a href="/familia" class="py-2 border-b border-almendra-light/20 hover:text-almendra">DERECHO DE FAMILIA</a>
+      <a href="/evaluar" class="py-2 text-almendra font-semibold">EVALUAR CASO PROCESAL →</a>
+    </div>
+    <div class="pt-4 border-t border-almendra-light/30 text-xs text-crema/70 space-y-1">
+      <p class="font-medium text-crema">Atención Presencial y Telemática</p>
+      <p>Tribunales de Santiago, Viña del Mar y Valparaíso</p>
+      <p class="text-almendra">contacto@ricardoguzman.cl</p>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', () => {
+      const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+      menuBtn.setAttribute('aria-expanded', (!isExpanded).toString());
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+</script>

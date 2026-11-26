@@ -1,0 +1,334 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Subgrupo A: Alimentos, Cuidado y Protección Familiar
+const grupoProteccion = [
+  {
+    id: 'pension-alimentos',
+    name: 'Demanda de pensión de alimentos',
+    condition: 'Mediación previa frustrada (Art. 106 Ley 19.968)',
+    alcance: 'Demandas de fijación de alimentos mayores o menores, acreditando necesidades y capacidad económica real.',
+  },
+  {
+    id: 'modificacion-alimentos',
+    name: 'Aumento, rebaja o cese de alimentos',
+    condition: 'Mediación previa y sentencia o acuerdo vigente',
+    alcance: 'Modificación de pensiones decretadas cuando han variado sustancialmente las circunstancias económicas o de edad.',
+  },
+  {
+    id: 'cumplimiento-alimentos',
+    name: 'Cobro de deuda de alimentos y apremios',
+    condition: 'Liquidación practicada o pensión decretada',
+    alcance: 'Gestión de liquidaciones, retenciones judiciales, arraigo, suspensión de licencia y medidas de apremio.',
+  },
+  {
+    id: 'cuidado-personal',
+    name: 'Cuidado personal (Tuición)',
+    condition: 'Mediación previa',
+    alcance: 'Representación técnica en demandas de cuidado personal unilateral o compartido bajo el interés superior del niño.',
+  },
+  {
+    id: 'relacion-directa',
+    name: 'Relación directa y regular (Visitas)',
+    condition: 'Mediación previa',
+    alcance: 'Establecimiento, modificación o cumplimiento de regímenes comunicacionales claros y estables.',
+  },
+  {
+    id: 'vif-familia',
+    name: 'Violencia Intrafamiliar (VIF) ante Tribunal de Familia',
+    condition: 'Revisión personal previa',
+    alcance: 'Asistencia letrada en audiencias preparatorias y de juicio por actos de VIF de competencia de familia y medidas cautelares.',
+  },
+];
+
+// Subgrupo B: Divorcios y Término del Vínculo
+const grupoDivorcios = [
+  {
+    id: 'divorcio-mutuo',
+    name: 'Divorcio de común acuerdo',
+    condition: '1 año de cese de convivencia acreditable',
+    alcance: 'Redacción del acuerdo completo y suficiente (alimentos, visitas y compensación económica) y tramitación íntegra.',
+  },
+  {
+    id: 'divorcio-unilateral',
+    name: 'Divorcio unilateral',
+    condition: '3 años de cese de convivencia',
+    alcance: 'Demanda de divorcio por cese efectivo de la convivencia, acreditando el cumplimiento de obligaciones alimenticias.',
+  },
+];
+---
+
+<BaseLayout
+  title="Derecho de Familia · Acuerdos y Litigación en Santiago y V Región | Ricardo Guzmán"
+  description="Asumo personalmente su representación en litigación familiar y acuerdos patrimoniales ante los Juzgados de Familia de Santiago, Viña del Mar y Valparaíso. Alimentos, tuición y divorcios."
+>
+  <!-- ==================== 1. CABECERA ASIMÉTRICA CON ORIENTACIÓN DE ADMISIBILIDAD (65% / 35% SOBRE FONDO CREMA) ==================== -->
+  <section class="relative bg-crema text-charcoal overflow-hidden border-b border-almendra/60">
+    <!-- Retícula arquitectónica suave de fondo -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(74,18,26,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(74,18,26,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+      <div class="absolute right-6 top-1/2 -translate-y-1/2 opacity-[0.035] w-[450px] h-[450px]">
+        <img src="/images/logo-rg-oscuro.svg" alt="" class="w-full h-full object-contain" />
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <!-- Columna Izquierda: ~65% (lg:col-span-7) -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-[1px] bg-burdeo"></span>
+            <span class="text-xs font-mono tracking-widest text-burdeo uppercase font-semibold">
+              DERECHO DE FAMILIA · SANTIAGO Y REGIÓN DE VALPARAÍSO
+            </span>
+          </div>
+
+          <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-burdeo-900 leading-[1.15] font-normal">
+            Acuerdos familiares y litigación estratégica ante Tribunales de Familia.
+          </h1>
+
+          <p class="text-sm sm:text-base lg:text-lg text-charcoal/85 leading-relaxed max-w-2xl font-light">
+            Asumo personalmente su representación en conflictos parentales, pensiones de alimentos y disolución del vínculo matrimonial. Analizo sus antecedentes documentales para proyectar soluciones serias y duraderas.
+          </p>
+
+          <div class="pt-2">
+            <a 
+              href="/evaluar?area=familia" 
+              class="group inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-burdeo text-crema text-xs font-bold uppercase tracking-widest hover:bg-burdeo-800 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+            >
+              <span>Evaluar causa de familia</span>
+              <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: ~35% (lg:col-span-5) Recuadro Editorial de Mediación y Plazos -->
+        <div class="lg:col-span-5">
+          <div class="bg-crema-200/90 border border-almendra p-6 sm:p-7 space-y-4 relative shadow-sm">
+            <span class="text-[11px] font-mono tracking-widest text-burdeo uppercase font-semibold block">
+              FASE PREVIA OBLIGATORIA
+            </span>
+
+            <h2 class="font-serif text-2xl text-burdeo-900 font-normal leading-snug">
+              Antes de demandar: Mediación y Plazos
+            </h2>
+
+            <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+              En Chile, materias como alimentos, cuidado personal y régimen de visitas exigen acreditar mediación previa frustrada (Art. 106 Ley 19.968) antes de ingresar una demanda. Si aún no cuenta con este certificado o necesita revisar sus plazos de divorcio, orientaré su primer paso en la evaluación.
+            </p>
+
+            <div class="pt-2">
+              <a 
+                href="/evaluar?area=familia" 
+                class="group inline-flex items-center justify-center gap-2 w-full px-5 py-3 border border-burdeo text-burdeo hover:bg-burdeo hover:text-crema text-xs font-mono font-medium uppercase tracking-wider transition-all duration-300 hover:shadow-sm"
+              >
+                <span>Verificar requisitos de mi caso</span>
+                <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 2. MATRIZ EDITORIAL DE MATERIAS FAMILIARES (SOBRE FONDO BURDEO) ==================== -->
+  <section class="py-20 lg:py-24 bg-burdeo-900 text-crema border-b border-almendra-light/30">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Encabezado balanceado de la sección -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-almendra font-semibold block mb-2">
+            MATERIAS Y CRITERIOS DE ADMISIBILIDAD
+          </span>
+          <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl text-crema leading-tight">
+            Causas que asumo en derecho de familia
+          </h2>
+        </div>
+        <p class="text-xs sm:text-sm text-crema/75 max-w-md font-light">
+          Cada procedimiento exige acreditar requisitos previos específicos o plazos legales de cese de convivencia antes de iniciar acciones en tribunales.
+        </p>
+      </div>
+
+      <!-- Encabezado de columnas visible en pantallas grandes -->
+      <div class="hidden lg:grid grid-cols-12 gap-6 pb-3 border-b-2 border-almendra text-[11px] font-mono tracking-widest text-almendra uppercase font-semibold">
+        <div class="col-span-4">Causa o Materia</div>
+        <div class="col-span-3">Condición de Atención</div>
+        <div class="col-span-3">Alcance de mi Representación</div>
+        <div class="col-span-2 text-right">Evaluación</div>
+      </div>
+
+      <!-- ==================== SUBGRUPO A: ALIMENTOS, CUIDADO Y PROTECCIÓN FAMILIAR ==================== -->
+      <div class="mt-8 mb-4 pt-6 border-t border-almendra/40 lg:border-t-0">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="w-4 h-[1px] bg-almendra"></span>
+          <h3 class="font-mono text-xs uppercase tracking-widest text-almendra font-semibold">
+            Subgrupo A · Alimentos, Cuidado y Protección Familiar
+          </h3>
+        </div>
+
+        <div class="border-t border-b border-almendra/30 divide-y divide-almendra/20">
+          {grupoProteccion.map((cause) => (
+            <div class="py-7 lg:py-8 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start lg:items-center">
+              
+              <!-- Columna 1: Nombre de la causa (4 columnas) -->
+              <div class="lg:col-span-4 space-y-1">
+                <span class="lg:hidden text-[10px] font-mono uppercase tracking-wider text-almendra font-semibold block">
+                  Materia Familiar
+                </span>
+                <h4 class="font-serif text-xl sm:text-2xl text-crema leading-snug">
+                  {cause.name}
+                </h4>
+              </div>
+
+              <!-- Columna 2: Condición de Atención con acento lateral sobrio -->
+              <div class="lg:col-span-3">
+                <span class="lg:hidden text-[10px] font-mono uppercase tracking-wider text-almendra font-semibold block mb-1">
+                  Condición de Atención
+                </span>
+                <div class="px-3.5 py-2.5 text-xs leading-snug border-l-2 bg-burdeo-800/80 border-almendra text-crema/90 font-medium">
+                  {cause.condition}
+                </div>
+              </div>
+
+              <!-- Columna 3: Alcance de mi representación (3 columnas) -->
+              <div class="lg:col-span-3">
+                <span class="lg:hidden text-[10px] font-mono uppercase tracking-wider text-almendra font-semibold block mb-1">
+                  Alcance
+                </span>
+                <p class="text-xs sm:text-sm text-crema/80 leading-relaxed font-light">
+                  {cause.alcance}
+                </p>
+              </div>
+
+              <!-- Columna 4: Botón de Acción con animación hover fluida -->
+              <div class="lg:col-span-2 lg:text-right pt-2 lg:pt-0">
+                <a 
+                  href={`/evaluar?area=familia&materia=${cause.id}`}
+                  class="group inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-crema text-burdeo-900 hover:bg-almendra text-xs font-mono font-medium uppercase tracking-wider transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 w-full lg:w-auto text-center"
+                >
+                  <span>Evaluar</span>
+                  <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1.5">→</span>
+                </a>
+              </div>
+
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ==================== SUBGRUPO B: DIVORCIOS Y TÉRMINO DEL VÍNCULO ==================== -->
+      <div class="mt-16 pt-8">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="w-4 h-[1px] bg-almendra"></span>
+          <h3 class="font-mono text-xs uppercase tracking-widest text-almendra font-semibold">
+            Subgrupo B · Divorcios y Término del Vínculo
+          </h3>
+        </div>
+
+        <div class="border-t border-b border-almendra/30 divide-y divide-almendra/20">
+          {grupoDivorcios.map((cause) => (
+            <div class="py-7 lg:py-8 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start lg:items-center">
+              
+              <!-- Columna 1: Nombre de la causa (4 columnas) -->
+              <div class="lg:col-span-4 space-y-1">
+                <span class="lg:hidden text-[10px] font-mono uppercase tracking-wider text-almendra font-semibold block">
+                  Materia Divorcio
+                </span>
+                <h4 class="font-serif text-xl sm:text-2xl text-crema leading-snug">
+                  {cause.name}
+                </h4>
+              </div>
+
+              <!-- Columna 2: Condición de Atención con acento lateral sobrio -->
+              <div class="lg:col-span-3">
+                <span class="lg:hidden text-[10px] font-mono uppercase tracking-wider text-almendra font-semibold block mb-1">
+                  Condición de Atención
+                </span>
+                <div class="px-3.5 py-2.5 text-xs leading-snug border-l-2 bg-burdeo-800/80 border-almendra text-crema/90 font-medium">
+                  {cause.condition}
+                </div>
+              </div>
+
+              <!-- Columna 3: Alcance de mi representación (3 columnas) -->
+              <div class="lg:col-span-3">
+                <span class="lg:hidden text-[10px] font-mono uppercase tracking-wider text-almendra font-semibold block mb-1">
+                  Alcance
+                </span>
+                <p class="text-xs sm:text-sm text-crema/80 leading-relaxed font-light">
+                  {cause.alcance}
+                </p>
+              </div>
+
+              <!-- Columna 4: Botón de Acción con animación hover fluida -->
+              <div class="lg:col-span-2 lg:text-right pt-2 lg:pt-0">
+                <a 
+                  href={`/evaluar?area=familia&materia=${cause.id}`}
+                  class="group inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-crema text-burdeo-900 hover:bg-almendra text-xs font-mono font-medium uppercase tracking-wider transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 w-full lg:w-auto text-center"
+                >
+                  <span>Evaluar</span>
+                  <span class="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1.5">→</span>
+                </a>
+              </div>
+
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 3. FRANJA DE MODALIDAD Y COBERTURA ==================== -->
+  <section class="py-16 sm:py-20 bg-crema text-charcoal border-t border-almendra/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-almendra/60">
+        
+        <!-- Columna 1: Salidas Colaborativas y Juicio -->
+        <div class="py-6 md:py-0 md:px-8 first:pl-0 space-y-3">
+          <span class="text-[11px] font-mono tracking-widest text-burdeo uppercase font-semibold block">
+            ESTRATEGIA PROCESAL
+          </span>
+          <h3 class="font-serif text-xl text-burdeo-900 leading-snug">
+            Salidas Colaborativas y Juicio
+          </h3>
+          <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            Priorizo acuerdos serios cuando resguardan su patrimonio e hijos, y litigo con firmeza cuando no hay espacio para conciliar.
+          </p>
+        </div>
+
+        <!-- Columna 2: Tramitación Digital y Presencial -->
+        <div class="py-6 md:py-0 md:px-8 space-y-3">
+          <span class="text-[11px] font-mono tracking-widest text-burdeo uppercase font-semibold block">
+            COBERTURA OPERATIVA
+          </span>
+          <h3 class="font-serif text-xl text-burdeo-900 leading-snug">
+            Tramitación Digital y Presencial
+          </h3>
+          <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            Gestión permanente ante Tribunales de Familia de Santiago, Viña del Mar y Valparaíso, más audiencias telemáticas.
+          </p>
+        </div>
+
+        <!-- Columna 3: Reserva y Trato Directo -->
+        <div class="py-6 md:py-0 md:px-8 last:pr-0 space-y-3">
+          <span class="text-[11px] font-mono tracking-widest text-burdeo uppercase font-semibold block">
+            CONFIDENCIALIDAD
+          </span>
+          <h3 class="font-serif text-xl text-burdeo-900 leading-snug">
+            Reserva y Trato Directo
+          </h3>
+          <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            Tratamiento estrictamente confidencial de los antecedentes familiares y contacto directo conmigo durante todo el juicio.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>

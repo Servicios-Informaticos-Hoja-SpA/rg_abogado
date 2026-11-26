@@ -1,0 +1,341 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TriageBar from '../components/TriageBar.astro';
+import UrgencyBanner from '../components/UrgencyBanner.astro';
+---
+
+<BaseLayout
+  title="Ricardo Guzmán · Abogado Litigante | Santiago y Viña del Mar"
+  description="Defensa penal técnica y litigación estratégica en derecho de familia. Atención presencial en Santiago y Viña del Mar, y telemática en todo Chile. Rigor procesal, dedicación estricta y trato directo."
+>
+  <!-- ==================== HERO SECTION EDITORIAL ==================== -->
+  <section class="relative bg-burdeo-900 text-crema overflow-hidden border-b border-almendra-light/30">
+    
+    <!-- Efectos y texturas de fondo para dar profundidad y evitar que sea plano -->
+    <div class="absolute inset-0 pointer-events-none">
+      <!-- Resplandor cálido sutil detrás de la figura de Ricardo (a la izquierda) -->
+      <div class="absolute left-0 top-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-radial from-burdeo-700/40 via-burdeo-800/20 to-transparent blur-3xl"></div>
+      
+      <!-- Retícula arquitectónica con filetes finos de 1px a muy baja opacidad -->
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(226,206,183,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(226,206,183,0.04)_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end min-h-[560px] lg:min-h-[620px]">
+        
+        <!-- Columna 1: Retrato de Ricardo (arriba en móvil, a la izquierda en desktop) -->
+        <div class="lg:col-span-5 flex justify-center lg:justify-start items-end self-end order-1 pt-6 lg:pt-0 relative">
+          <!-- Marca de agua vectorial centrada exactamente detrás de Ricardo en móvil y acompañando su silueta en desktop -->
+          <div class="absolute left-1/2 -translate-x-1/2 lg:left-1/3 bottom-0 sm:bottom-4 lg:bottom-8 pointer-events-none opacity-[0.045] w-[260px] sm:w-[380px] lg:w-[500px] h-[260px] sm:h-[380px] lg:h-[500px]">
+            <img src="/images/logo-rg-claro.svg" alt="" class="w-full h-full object-contain" />
+          </div>
+
+          <img 
+            id="hero-portrait-img"
+            src="/images/ricardo_guzman_sin_fondo.png" 
+            alt="Ricardo Guzmán · Abogado Litigante" 
+            class="w-auto max-h-[250px] sm:max-h-[340px] lg:max-h-[600px] object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-[1.01] portrait-blend block relative"
+            loading="eager"
+          />
+        </div>
+
+        <!-- Columna 2: Tipografía y Propuesta de Valor (debajo en móvil, a la derecha en desktop) -->
+        <div class="lg:col-span-7 flex flex-col justify-center space-y-5 sm:space-y-7 pb-10 pt-2 sm:py-16 lg:py-20 order-2 self-center">
+          
+          <!-- Titular Principal H1 -->
+          <h1 class="font-serif text-3xl sm:text-4xl lg:text-[46px] text-crema leading-[1.18] font-normal">
+            Defensa penal técnica y litigación estratégica en derecho de familia.
+          </h1>
+
+          <!-- Párrafo Descriptivo (Overview directo y en primera persona) -->
+          <p class="text-sm sm:text-base lg:text-lg text-crema/90 leading-relaxed max-w-xl font-light">
+            Asumo personalmente su representación ante los tribunales de Santiago y la Región de Valparaíso. Sin intermediarios, con análisis riguroso de antecedentes y evaluación preliminar de viabilidad.
+          </p>
+
+          <!-- Acciones Principales -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            <a 
+              href="/evaluar" 
+              class="inline-flex items-center justify-center px-8 py-3.5 bg-crema text-burdeo-900 text-xs font-bold uppercase tracking-widest hover:bg-almendra transition-all"
+            >
+              <span>Evaluar mi caso ahora</span>
+              <svg class="w-4 h-4 ml-2 text-burdeo-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="square" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+            <a 
+              href="#areas-de-practica" 
+              class="inline-flex items-center justify-center px-8 py-3.5 border border-almendra text-crema text-xs font-medium uppercase tracking-widest hover:bg-crema/10 transition-all"
+            >
+              Conocer áreas de práctica
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BARRA DE TRIAJE RÁPIDO ==================== -->
+  <TriageBar />
+
+  <!-- ==================== PROPUESTA DE VALOR: 3 PILARES ==================== -->
+  <section class="py-20 lg:py-28 bg-crema text-charcoal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mb-16">
+        <span class="text-xs font-mono uppercase tracking-widest text-burdeo font-semibold block mb-2">
+          MI FORMA DE LITIGAR
+        </span>
+        <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl text-burdeo-900 leading-tight">
+          Cada causa exige rigor técnico, presencia personal en tribunales y absoluta honestidad desde el primer día.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Pilar 1 -->
+        <div class="p-8 bg-crema-200/40 border border-almendra/60 space-y-4">
+          <div class="w-10 h-10 border border-burdeo flex items-center justify-center font-mono text-burdeo text-sm font-semibold">
+            01
+          </div>
+          <h3 class="font-serif text-xl text-burdeo-900">Diagnóstico Realista y Fundado</h3>
+          <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            No trabajo con conjeturas ni promesas vacías. Antes de iniciar cualquier acción, estudio a fondo los antecedentes o la carpeta investigativa para entregarle un panorama claro y honesto de sus opciones.
+          </p>
+        </div>
+
+        <!-- Pilar 2 -->
+        <div class="p-8 bg-crema-200/40 border border-almendra/60 space-y-4">
+          <div class="w-10 h-10 border border-burdeo flex items-center justify-center font-mono text-burdeo text-sm font-semibold">
+            02
+          </div>
+          <h3 class="font-serif text-xl text-burdeo-900">Presencia en Santiago y V Región</h3>
+          <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            Conozco el criterio y funcionamiento diario de los Juzgados de Garantía, Tribunales Orales y Tribunales de Familia en Santiago, Viña del Mar y Valparaíso, permitiendo una gestión ágil y oportuna.
+          </p>
+        </div>
+
+        <!-- Pilar 3 -->
+        <div class="p-8 bg-crema-200/40 border border-almendra/60 space-y-4">
+          <div class="w-10 h-10 border border-burdeo flex items-center justify-center font-mono text-burdeo text-sm font-semibold">
+            03
+          </div>
+          <h3 class="font-serif text-xl text-burdeo-900">Defensa Directa, Sin Intermediarios</h3>
+          <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            Cuando me confía su caso, yo preparo la estrategia, redacto los escritos y comparezco personalmente en cada audiencia. Su causa nunca es delegada en terceros ni procuradores.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== BIFURCACIÓN DE ÁREAS DE PRÁCTICA ==================== -->
+  <section id="areas-de-practica" class="py-20 lg:py-28 bg-burdeo text-crema border-t border-b border-almendra-light/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs font-mono uppercase tracking-widest text-almendra block mb-2">
+          COMPETENCIA TÉCNICA
+        </span>
+        <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl text-crema font-normal">
+          Áreas de Práctica Jurídica
+        </h2>
+        <p class="text-xs sm:text-sm text-crema/80 mt-3 font-light">
+          Representación especializada en materias procesales críticas que demandan intervención experta.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Tarjeta Área Penal -->
+        <div class="bg-burdeo-900 p-8 sm:p-10 border border-almendra-light/40 flex flex-col justify-between space-y-8">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-almendra-light/20 pb-4">
+              <span class="text-xs font-mono tracking-widest text-almendra uppercase">LITIGACIÓN Y DEFENSA</span>
+              <span class="text-xs text-crema/60">Santiago · Viña del Mar</span>
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl text-crema font-normal">Derecho Penal</h3>
+            <p class="text-xs sm:text-sm text-crema/80 leading-relaxed font-light">
+              Asumo su defensa técnica ante el Ministerio Público, Juzgados de Garantía y Tribunales de Juicio Oral en lo Penal. Cautelo personalmente sus garantías constitucionales y dirijo querellas por delitos contra la propiedad y defraudaciones.
+            </p>
+
+            <ul class="space-y-2 pt-2 text-xs text-crema/90">
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Defensa en formalizaciones y debate de prisión preventiva</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Control de detención y primeras diligencias (urgencia 24h)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Delitos de la Ley 18.290 (Conducción en estado de ebriedad)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Querellas criminales por estafas y delitos contra la propiedad</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Recursos de apelación, amparo constitucional y nulidad</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="pt-6 border-t border-almendra-light/20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+            <a 
+              href="/penal" 
+              class="text-xs text-almendra hover:text-crema transition-colors font-medium tracking-wider uppercase inline-flex items-center gap-1"
+            >
+              <span>Ver etapas procesales y enfoque penal</span>
+              <span>→</span>
+            </a>
+            <a 
+              href="/evaluar?area=penal" 
+              class="px-5 py-2.5 bg-crema text-burdeo-900 text-xs font-bold uppercase tracking-wider text-center hover:bg-almendra transition-colors"
+            >
+              Evaluar Causa Penal
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjeta Área Familia -->
+        <div class="bg-burdeo-900 p-8 sm:p-10 border border-almendra-light/40 flex flex-col justify-between space-y-8">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-almendra-light/20 pb-4">
+              <span class="text-xs font-mono tracking-widest text-almendra uppercase">ACUERDOS Y LITIGACIÓN</span>
+              <span class="text-xs text-crema/60">Santiago · Viña del Mar</span>
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl text-crema font-normal">Derecho de Familia</h3>
+            <p class="text-xs sm:text-sm text-crema/80 leading-relaxed font-light">
+              Lo represento en conflictos familiares ante los Juzgados de Familia de Santiago y la Región de Valparaíso. Busco soluciones firmes y resguardo patrimonial en pensiones de alimentos, cuidado personal y divorcios.
+            </p>
+
+            <ul class="space-y-2 pt-2 text-xs text-crema/90">
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Cobro forzado de alimentos y medidas de apremio (Ley 21.389)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Demandas de pensión de alimentos, aumento, rebaja y cese</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Cuidado personal (tuición) unilateral y compartido</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Relación directa y regular (fijación y cumplimiento de visitas)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-almendra"></span>
+                <span>Divorcios de mutuo acuerdo y unilaterales por cese efectivo</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="pt-6 border-t border-almendra-light/20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+            <a 
+              href="/familia" 
+              class="text-xs text-almendra hover:text-crema transition-colors font-medium tracking-wider uppercase inline-flex items-center gap-1"
+            >
+              <span>Ver etapas procesales y enfoque familia</span>
+              <span>→</span>
+            </a>
+            <a 
+              href="/evaluar?area=familia" 
+              class="px-5 py-2.5 bg-crema text-burdeo-900 text-xs font-bold uppercase tracking-wider text-center hover:bg-almendra transition-colors"
+            >
+              Evaluar Causa Familia
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== BANNER DE URGENCIA PENAL ==================== -->
+  <section class="py-12 bg-crema">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <UrgencyBanner />
+    </div>
+  </section>
+
+  <!-- ==================== SECCIÓN DE AUTORIDAD: SOBRE RICARDO GUZMÁN ==================== -->
+  <section class="py-20 lg:py-28 bg-crema-100 text-charcoal border-t border-almendra/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-sm">
+            <div class="absolute -inset-2 border border-almendra/60"></div>
+            <div class="relative bg-crema border border-almendra p-3">
+              <img 
+                id="profile-portrait-img"
+                src="/images/ricardo-guzman-perfil.png" 
+                alt="Ricardo Guzmán Abogado Titular" 
+                class="w-full aspect-square object-cover"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 space-y-6">
+          <span class="text-xs font-mono uppercase tracking-widest text-burdeo font-semibold block">
+            SOBRE MI EJERCICIO PROFESIONAL
+          </span>
+          <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl text-burdeo-900 font-normal leading-tight">
+            "La litigación no admite improvisación: una buena defensa o un acuerdo justo se construyen desde la primera actuación."
+          </h2>
+          <div class="space-y-4 text-xs sm:text-sm text-charcoal/80 leading-relaxed font-light">
+            <p>
+              Soy Ricardo Guzmán, abogado habilitado por la Excelentísima Corte Suprema de Chile, dedicado al ejercicio libre de la profesión en causas penales y de derecho de familia.
+            </p>
+            <p>
+              A lo largo de mi trayectoria he optado por mantener una práctica acotada y concentrada en Santiago y la Región de Valparaíso. Esto me permite estudiar cada expediente con el tiempo que merece y acompañar personalmente a mis representados en instancias críticas, sin la distancia ni la burocracia de los estudios masivos.
+            </p>
+            <!-- [Espacio reservado para formación académica / especializaciones de Ricardo] -->
+          </div>
+
+          <div class="pt-4 flex flex-wrap items-center gap-6 text-xs font-mono text-burdeo">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-burdeo"></span>
+              <span>Abogado habilitado por la Corte Suprema</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-burdeo"></span>
+              <span>contacto@ricardoguzman.cl</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const heroImg = document.getElementById('hero-portrait-img') as HTMLImageElement | null;
+    if (heroImg) {
+      heroImg.addEventListener('error', () => {
+        heroImg.src = '/images/logo-rg-claro.svg';
+        heroImg.className = 'p-12 w-3/4 h-3/4 object-contain opacity-80';
+      });
+    }
+
+    const profileImg = document.getElementById('profile-portrait-img') as HTMLImageElement | null;
+    if (profileImg) {
+      profileImg.addEventListener('error', () => {
+        profileImg.src = '/images/logo-rg-oscuro.svg';
+      });
+    }
+  </script>
+</BaseLayout>

@@ -1,0 +1,129 @@
+---
+import { OFFICIAL_EMAIL, OFFICIAL_PHONE } from '../data/causes';
+---
+
+<footer class="bg-burdeo-900 text-crema border-t border-almendra/30">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 lg:py-20">
+    
+    <!-- Cuadrícula Principal de 3 Columnas -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 mb-12 sm:mb-16">
+      
+      <!-- Columna 1: Identidad en 1ª Persona (5 cols) -->
+      <div class="md:col-span-5 space-y-4">
+        <a href="/" class="inline-block" aria-label="Ricardo Guzmán - Inicio">
+          <img 
+            src="/images/logo-rg-horizontal-claro.svg" 
+            alt="Ricardo Guzmán · Abogado Litigante" 
+            class="h-9 sm:h-10 w-auto object-contain"
+            width="210"
+            height="42"
+          />
+        </a>
+        
+        <p class="text-xs text-crema/80 leading-relaxed font-light max-w-sm">
+          Defensa penal técnica y representación en derecho de familia en Santiago y la Región de Valparaíso. Atención presencial y telemática.
+        </p>
+
+        <!-- Enlaces a Redes Sociales Oficiales -->
+        <div class="flex items-center gap-3 pt-1 text-xs font-mono text-almendra">
+          <a 
+            href="https://instagram.com/ricardoguzman.cl" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="hover:text-crema transition-colors"
+          >
+            Instagram
+          </a>
+          <span class="text-almendra/40">·</span>
+          <a 
+            href="https://facebook.com/ricardoguzman.cl" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="hover:text-crema transition-colors"
+          >
+            Facebook
+          </a>
+          <span class="text-almendra/40">·</span>
+          <span class="text-crema/60 text-[11px]">@ricardoguzman.cl</span>
+        </div>
+      </div>
+
+      <!-- Columna 2: Navegación del Sitio (3 cols) -->
+      <div class="md:col-span-3 space-y-4">
+        <span class="text-xs font-mono uppercase tracking-widest text-almendra font-semibold block">
+          NAVEGACIÓN
+        </span>
+        <ul class="space-y-2.5 text-xs text-crema/85 font-light">
+          <li>
+            <a href="/" class="hover:text-almendra transition-colors inline-block py-0.5">
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a href="/penal" class="hover:text-almendra transition-colors inline-block py-0.5">
+              Derecho Penal
+            </a>
+          </li>
+          <li>
+            <a href="/familia" class="hover:text-almendra transition-colors inline-block py-0.5">
+              Derecho de Familia
+            </a>
+          </li>
+          <li>
+            <a href="/evaluar" class="hover:text-almendra transition-colors inline-block py-0.5">
+              Evaluar Caso
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Contacto Directo (4 cols) -->
+      <div class="md:col-span-4 space-y-4">
+        <span class="text-xs font-mono uppercase tracking-widest text-almendra font-semibold block">
+          CONTACTO DIRECTO
+        </span>
+        <div class="space-y-3 text-xs text-crema/85 font-light">
+          <div>
+            <span class="block text-[10px] font-mono uppercase tracking-wider text-almendra/80 mb-0.5">Correo Oficial</span>
+            <a 
+              href={`mailto:${OFFICIAL_EMAIL}`} 
+              class="text-crema hover:text-almendra transition-colors font-medium break-all"
+            >
+              {OFFICIAL_EMAIL}
+            </a>
+          </div>
+          <div>
+            <span class="block text-[10px] font-mono uppercase tracking-wider text-almendra/80 mb-0.5">Teléfono / WhatsApp</span>
+            <a 
+              href={`tel:${OFFICIAL_PHONE}`} 
+              class="text-crema hover:text-almendra transition-colors font-mono font-medium text-sm inline-block"
+            >
+              +56 9 8424 9110
+            </a>
+          </div>
+          <div class="pt-1">
+            <a 
+              href="/evaluar" 
+              class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-almendra hover:text-crema transition-colors font-medium"
+            >
+              <span>Evaluar mi caso</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Línea de Cierre Inferior -->
+    <div class="pt-6 sm:pt-8 border-t border-almendra/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-[11px] text-crema/60 font-light">
+      <p>
+        © 2026 Ricardo Guzmán · Abogado Litigante. Todos los derechos reservados.
+      </p>
+      <p class="text-crema/50">
+        Ejercicio profesional sujeto al Código de Ética Profesional · Sin promesa de resultados.
+      </p>
+    </div>
+
+  </div>
+</footer>
